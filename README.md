@@ -9,7 +9,7 @@
 | ------------- | ------------- | ------------- |
 | kaggle TCGA-LGG  | 脑肿瘤分割  | [https://www.kaggle.com/datasets/mateuszbuda/lgg-mri-segmentation](https://www.kaggle.com/datasets/mateuszbuda/lgg-mri-segmentation)  |
 | ISBI 2012  | 细胞壁分割  | [https://grand-challenge.org/challenges/](https://grand-challenge.org/challenges/)  |
-| ISIC 2018  | 皮肤病分割  | [https://www.kaggle.com/competitions/siim-isic-melanoma-classification/discussion/164560](https://www.kaggle.com/competitions/siim-isic-melanoma-classification/discussion/164560)  |
+| ISIC 2018  | 皮肤病分割  | [https://www.kaggle.com/competitions/siim-isic-melanoma-classification](https://www.kaggle.com/competitions/siim-isic-melanoma-classification)  |
 
 ### 数据增强
 在有限的数据集上训练大型神经网络，需要特别注意过拟合问题，本模型通过使用随机旋转、随机缩放、随机弹性变形、伽马校正增强等方式进行数据增强。详细代码可见[brainMRI_prepare.py](./utils/brainMRI_prepare.py)、[ISBI_prepare.py](./utils/ISBI_prepare.py)、[ISIC_prepare.py](./utils/ISIC_prepare.py)
