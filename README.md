@@ -1,78 +1,71 @@
 # Deform_Adaptive_Unet
-## 概述
-### 整体模型
-![整体模型图](/image/2.jpg)
-    模型使用可变形卷积自适应提取特征；利用全面的间隔跳跃连接在编码器上搜集特征信息，解码器上残差连接促进特征进行传递利用；残差注意力卷积优化编码器和解码器之间的语义差距，从通道和空间上的注意力抑制无关特征，突出有效特征，自适应促进二者之间的特征传递利用；除了提高精度外，模型还使用多尺度深度监督来进一步增强病灶区域边界分割并减少非病灶区域的过度分割。
+## overview
+### overall model
+![overall model image](/image/1.jpg)
+    The model uses improved deformable convolution to adaptively extract features; comprehensive interval jump connections are used to gather feature information at the encoder, and residual connections at the decoder to facilitate the transfer of features for exploitation; residual attention convolution optimises the semantic gap between the encoder and the decoder, suppressing extraneous features and highlighting effective features from channel and spatial attention, and adapting to facilitate the transfer of features for exploitation between the two; in addition to improving accuracy, the model uses multiscale depth supervision to further enhance segmentation of the boundary of the focal region and to reduce the over-segmentation of the non-focal region.
 
-### 数据集介绍
-| 数据集名称  | 种类 | 地址 |
+### Introduction to the dataset
+| Data set name  | kind | address |
 | ------------- | ------------- | ------------- |
-| kaggle TCGA-LGG  | 脑肿瘤分割  | [https://www.kaggle.com/datasets/mateuszbuda/lgg-mri-segmentation](https://www.kaggle.com/datasets/mateuszbuda/lgg-mri-segmentation)  |
-| ISBI 2012  | 细胞壁分割  | [https://grand-challenge.org/challenges/](https://grand-challenge.org/challenges/)  |
-| ISIC 2018  | 皮肤病分割  | [https://www.kaggle.com/competitions/siim-isic-melanoma-classification](https://www.kaggle.com/competitions/siim-isic-melanoma-classification)  |
+| kaggle TCGA-LGG  | Brain tumour segmentation  | [https://www.kaggle.com/datasets/mateuszbuda/lgg-mri-segmentation](https://www.kaggle.com/datasets/mateuszbuda/lgg-mri-segmentation)  |
+| ISBI 2012  | cell wall segmentation  | [https://grand-challenge.org/challenges/](https://grand-challenge.org/challenges/)  |
+| ISIC 2018  | Dermatological segmentation  | [https://www.kaggle.com/competitions/siim-isic-melanoma-classification](https://www.kaggle.com/competitions/siim-isic-melanoma-classification)  |
 
-### 数据增强
-在有限的数据集上训练大型神经网络，需要特别注意过拟合问题，本模型通过使用随机旋转、随机缩放、随机弹性变形、伽马校正增强等方式进行数据增强。详细代码可见[brainMRI_prepare.py](./utils/brainMRI_prepare.py)、[ISBI_prepare.py](./utils/ISBI_prepare.py)、[ISIC_prepare.py](./utils/ISIC_prepare.py)
+### Data Enhancement
+Training large neural networks on limited datasets requires special attention to the overfitting problem, and this model enhances the data by using random rotation, random scaling, random elastic deformation, and gamma correction enhancement. The detailed code can be found at[brainMRI_prepare.py](./utils/brainMRI_prepare.py)、[ISBI_prepare.py](./utils/ISBI_prepare.py)、[ISIC_prepare.py](./utils/ISIC_prepare.py)
 
-### 实验训练
-实验基于 Pytorch 深度学习环境进行, 所有算法均在单张 NVIDIA Corporation GP100GL显卡上训练完成。每个数据集上实验的批处理大小均为 8；损失函数采用Focal loss和Dice loss的混合组成；使用 Adam 算法对损失函数进行优化；学习率设为1e-4,共迭代 300 次后终止训练。
+### experimental training
+The experiments were conducted in Pytorch deep learning environment, and all algorithms were trained on a single NVIDIA Corporation GP100GL graphics card. The batch size of the experiments on each dataset is 8; the loss function is a mixture of Focal loss and Dice loss; the loss function is optimised using Adam's algorithm; the learning rate is set to 1e-4, and the training is terminated after 300 iterations.
 
-### 项目结构
-    ├─criterion             # 损失函数和评估函数
-    ├─datasets              # 部分数据集
+### Project structure
+    ├─criterion             # Loss function and evaluation function
+    ├─datasets              # Selected data sets
     │  ├─brain_test
     │  ├─ISBI
     │  └─ISIC_test
-    ├─image                 # 实验图片
-    ├─log                   # 日志文件
-    ├─melt                  # 消融实验模型
-    ├─models                # 其他实验模型
-    ├─model_train           # 模型训练
-    ├─pth                   # 权重文件
-    └─utils                 # 工具文件
+    ├─image                 # Experimental Pictures
+    ├─log                   # log file
+    ├─melt                  # Ablation experimental model
+    ├─models                # Other experimental models
+    ├─model_train           # model training
+    ├─pth                   # weights file
+    └─utils                 # Tools Documentation
 
-## 使用方法
-### 项目安装
-1. **第一步：创建conda环境**
+## Usage
+### Project Installation
+1. **Step 1: Create the conda environment**
 ```
 conda create -n yolo python==3.8
-conda activate yolo # 进入环境
+conda activate yolo # Access to the environment
 ```
 
-2. **第二步：克隆项目**
+2. **Step 2: Clone the project**
 ```
 git clone https://github.com/eduujspeng/Deform_Adaptive_UNet.git
 ```
 
-3. **第三步：安装依赖**
+3. **Step 3: Install dependencies**
 ```
 cd Deform_Adaptive_UNet
 pip install -r ./requirement.txt -U
 ```
-### 项目使用
+### Project use
 ```
-# 数据集1训练
-BrainMRI_train.py
+# Can refer to example-isic-DAU-Net.ipynb
 
-# 数据集2训练
-ISBI_train.py
-
-# 数据集3训练
-ISIC_train.py
-
-# 图片检验
+# Image inspection
 detection.py
 ```
 
-## 实验结果
-### 消融实验
-为了有效研究不同改进算法的性能，通过消融实验替换部分网络的方式验证不同技术对网络模型的影响
-以U-Net为基线模型，可变形卷积替换成普通卷积为模型1；在模型1的基础上添加间隔跳跃连接为模型2；在模型1的基础上将普通编码器、解码器拼接替换成残差注意力卷积拼接为模型3；在模型1的基础上添加多尺度监督为模型4；本文算法作为模型5。在数据集1上进行消融实验，考虑到数据集1的数据规模较小，采用十折交叉的方法进行分割效果的验证
-![数据集1折线对比图](/image/10.jpg)
+## Experimental results
+### Ablation experiment
+In order to effectively study the performance of different improved algorithms, the effects of different techniques on the network model are verified by replacing part of the network through ablation experiments
+Take DU-Net as the baseline model, improve deformable convolution as model 1; add interval jump connection as model 2 on the basis of the baseline model; replace ordinary encoder and decoder splicing with residual attention convolution splicing on the basis of the baseline model as model 3; add multi-scale supervision on the basis of the baseline model as model 4; the algorithm in this paper is used as model 5. Conducting the ablation experiments on the dataset 1. Considering the small data size of dataset 1, ten-fold crossover is used for the verification of segmentation effect
+![数据集1折线对比图](/image/图7.jpg)
 ![数据集1消融实验对比图](/image/图8.jpg)
 
-### 其他算法对比实验
-为了进一步验证本文模型在医学图像分割领域的泛化能力和分割精度，在三个数据集上将U-Net、U-Net3+、Attention U-Net、DU-Net这四种主流算法与本文算法进行比较
+### Comparison experiments with other algorithms
+In order to further verify the generalisation ability and segmentation accuracy of this paper's model in the field of medical image segmentation, four mainstream algorithms, namely, U-Net, U-Net3+, Attention U-Net, and DU-Net, are compared with this paper's algorithm on three datasets
 ![数据集1实验对比图](/image/图9.jpg)
 ![数据集2实验对比图](/image/图10.jpg)
 ![数据集3实验对比图](/image/图11.jpg)
