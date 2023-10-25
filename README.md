@@ -2,6 +2,7 @@
 ## overview
 ### overall model
 ![overall model image](/image/1.jpg)
+![overall model image](/image/2.jpg)
     The model uses improved deformable convolution to adaptively extract features; comprehensive interval jump connections are used to gather feature information at the encoder, and residual connections at the decoder to facilitate the transfer of features for exploitation; residual attention convolution optimises the semantic gap between the encoder and the decoder, suppressing extraneous features and highlighting effective features from channel and spatial attention, and adapting to facilitate the transfer of features for exploitation between the two; in addition to improving accuracy, the model uses multiscale depth supervision to further enhance segmentation of the boundary of the focal region and to reduce the over-segmentation of the non-focal region.
 
 ### Introduction to the dataset
@@ -61,7 +62,7 @@ detection.py
 ### Ablation experiment
 In order to effectively study the performance of different improved algorithms, the effects of different techniques on the network model are verified by replacing part of the network through ablation experiments
 Take DU-Net as the baseline model, improve deformable convolution as model 1; add interval jump connection as model 2 on the basis of the baseline model; replace ordinary encoder and decoder splicing with residual attention convolution splicing on the basis of the baseline model as model 3; add multi-scale supervision on the basis of the baseline model as model 4; the algorithm in this paper is used as model 5. Conducting the ablation experiments on the dataset 1. Considering the small data size of dataset 1, ten-fold crossover is used for the verification of segmentation effect
-![数据集1折线对比图](/image/图7.jpg)
+![数据集1折线对比图](/image/10.jpg)
 ![数据集1消融实验对比图](/image/图8.jpg)
 
 ### Comparison experiments with other algorithms
